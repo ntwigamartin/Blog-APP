@@ -8,6 +8,9 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin
 )
 
+import logging
+logger = logging.getLogger(__name__)
+
 # posts = [
 #     {
 #         'author': 'CoreMs',
@@ -25,6 +28,7 @@ from django.contrib.auth.mixins import (
 
 
 def home(request):
+    print("home visited")
     context = {
         'posts': Post.objects.all(),
     }
@@ -36,6 +40,13 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
+
+    """def get(self, request, *args, **kwargs):
+        logger.info("PostListView GET called")
+        print("PostListView GET called")
+        # You can also inspect session:
+        print("Session data:", dict(request.session.items()))
+        return super().get(request, *args, **kwargs)"""
 
 class UserPostListView(ListView):
     model = Post
